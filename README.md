@@ -17,7 +17,7 @@ The server exposes no account-changing, review-submission, or deletion tools.
 ## Requirements
 
 - A Bunpro account and a current frontend bearer token.
-- Node.js 18 or newer when running from source or through `npx`.
+- Node.js 22 or newer when running from source or through `npx`.
 - An MCP client that supports local stdio servers.
 
 ## Get your Bunpro token
@@ -31,7 +31,21 @@ Treat this token like a password. Do not commit it, paste it into issues, or exp
 
 ## Configure an MCP client
 
-The package is not published yet. Install and build this repository, then configure your client with an absolute path:
+Install and launch the published package directly from your MCP client:
+
+```json
+{
+  "mcpServers": {
+    "bunpro": {
+      "command": "npx",
+      "args": ["-y", "bunpro-mcp-server"],
+      "env": { "BUNPRO_API_TOKEN": "your-token" }
+    }
+  }
+}
+```
+
+For local development, build the repository and configure the client with an absolute path:
 
 ```json
 {
@@ -133,9 +147,9 @@ Read [Architecture](docs/ARCHITECTURE.md), [Technical security](docs/SECURITY.md
 
 ## Releases and distribution
 
-The npm package name is `bunpro-mcp-server`. Once published, it can be launched with `npx -y bunpro-mcp-server`. Until then, use the local absolute-path configuration above.
+The npm package is published as [`bunpro-mcp-server`](https://www.npmjs.com/package/bunpro-mcp-server) and can be launched with `npx -y bunpro-mcp-server`.
 
-Releases should use Semantic Versioning, update [CHANGELOG.md](CHANGELOG.md), follow [Publishing](docs/PUBLISHING.md), and inspect `npm pack --dry-run` before publication.
+Releases use Semantic Versioning and GitHub Releases. The release tag must match `v<package version>`; GitHub Actions then tests and publishes through tokenless npm Trusted Publishing. See [Publishing](docs/PUBLISHING.md).
 
 A future hosted streamable-HTTP server could reduce installation friction, but it first needs secure per-user authentication and token storage. Local stdio keeps the current bearer token on the user's machine.
 

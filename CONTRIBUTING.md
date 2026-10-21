@@ -4,7 +4,7 @@ Thank you for improving Bunpro MCP. This project wraps an unofficial API, so sma
 
 ## Setup
 
-Requirements: Node.js 18 or newer and npm.
+Requirements: Node.js 22 or newer and npm.
 
 ```bash
 npm ci

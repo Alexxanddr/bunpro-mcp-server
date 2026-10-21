@@ -17,7 +17,7 @@ flowchart LR
 ## Stack and runtime
 
 - TypeScript targeting ES2022, emitted as ESM.
-- Node.js 18 or newer, using built-in `fetch`, `URL`, and process APIs.
+- Node.js 22 or newer, using built-in `fetch`, `URL`, and process APIs.
 - Official `@modelcontextprotocol/sdk` server and stdio transport.
 - Zod for MCP input schemas.
 - esbuild for the executable bundle; TypeScript emits declarations.

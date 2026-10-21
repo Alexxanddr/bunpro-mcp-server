@@ -2,9 +2,9 @@
 
 ## Current status
 
-The selected npm package name is `bunpro-mcp-server`; it was available when checked on 2026-10-21. The previous candidate `bunpro-mcp` was already occupied at version `1.0.0`.
+The package is published as `bunpro-mcp-server`; npm user `alexxanddr0` owns it. Version `0.1.0` was the first public release. The previous candidate `bunpro-mcp` belongs to another project.
 
-Availability is not a reservation. Verify `bunpro-mcp-server` again immediately before the first publication. The repository metadata points to `Alexxanddr/bunpro-mcp-server`; add final installation examples after publishing.
+The repository metadata points to `Alexxanddr/bunpro-mcp-server`. Every new publication needs a unique version; npm versions cannot be overwritten.
 
 ## Recommended first distribution
 
@@ -22,12 +22,21 @@ Use Semantic Versioning and tags of the form `vX.Y.Z`. Until `1.0.0`, document a
 
 ## Pre-release checklist
 
-1. Reverify the npm package name and public repository URL.
-2. Verify repository/homepage/bugs metadata and add final installation examples.
+1. Verify the npm account, package ownership, and public repository URL.
+2. Verify package metadata and installation examples.
 3. Update `CHANGELOG.md` and the package version.
 4. Run the complete checklist in [TESTING.md](TESTING.md), including live read-only tests and clean tarball installation.
 5. Review dependencies, license, Bunpro disclaimer, security contact, and MCP contracts.
 6. Create the signed/annotated Git tag and release notes.
-7. Publish only with explicit maintainer authorization and npm provenance/2FA where available.
+7. Publish a GitHub Release whose tag exactly matches `v<package version>`. The `publish.yml` workflow validates, tests, and publishes through npm Trusted Publishing.
 
-No automated publish workflow is included yet: credentials, package identity, repository URL, and release policy are unresolved, so automation would be premature.
+## Trusted Publishing setup
+
+The repository includes `.github/workflows/publish.yml` and does not use a long-lived npm token. After pushing that file, configure the package on npm under **Settings → Trusted Publisher → GitHub Actions**:
+
+- Organization or user: `Alexxanddr`
+- Repository: `bunpro-mcp-server`
+- Workflow filename: `publish.yml`
+- Allowed action: `npm publish`
+
+The workflow runs on a GitHub-hosted runner with OIDC permission. npm then issues a short-lived credential and automatically records provenance. A newly configured trusted publisher must complete its first successful publication within npm's configured activation window.

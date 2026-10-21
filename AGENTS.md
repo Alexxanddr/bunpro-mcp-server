@@ -2,7 +2,7 @@
 
 ## Project overview
 
-Bunpro MCP is a read-only TypeScript MCP server for Bunpro's unofficial frontend API. It uses the official `@modelcontextprotocol/sdk`, Zod schemas, Node.js 18+, and stdio transport.
+Bunpro MCP is a read-only TypeScript MCP server for Bunpro's unofficial frontend API. It uses the official `@modelcontextprotocol/sdk`, Zod schemas, Node.js 22+, and stdio transport.
 
 - `src/client.ts`: HTTP integration and response projection.
 - `src/server.ts`: MCP tool registration and protocol-facing validation.
