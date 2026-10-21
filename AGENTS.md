@@ -36,6 +36,7 @@ Read `docs/ARCHITECTURE.md` before changing boundaries and `docs/MCP_CONTRACTS.m
 - Validate all tool input at the MCP boundary and URL-encode user-controlled path values.
 - Keep logging on stderr and never write diagnostics to stdout, which is reserved for MCP stdio.
 - Use the least-privileged available credential and preserve read-only behavior.
+- Keep `package.json`, `server.json`, and the MCP server identity aligned when changing the name or version.
 
 ## Development workflow
 

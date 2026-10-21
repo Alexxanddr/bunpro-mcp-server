@@ -28,7 +28,7 @@ Use Semantic Versioning and tags of the form `vX.Y.Z`. Until `1.0.0`, document a
 4. Run the complete checklist in [TESTING.md](TESTING.md), including live read-only tests and clean tarball installation.
 5. Review dependencies, license, Bunpro disclaimer, security contact, and MCP contracts.
 6. Create the signed/annotated Git tag and release notes.
-7. Publish a GitHub Release whose tag exactly matches `v<package version>`. The `publish.yml` workflow validates, tests, and publishes through npm Trusted Publishing.
+7. Publish a GitHub Release whose tag exactly matches `v<package version>`. The `publish.yml` workflow validates, tests, publishes through npm Trusted Publishing, then publishes `server.json` to the official MCP Registry.
 
 ## Trusted Publishing setup
 
@@ -40,3 +40,17 @@ The repository includes `.github/workflows/publish.yml` and does not use a long-
 - Allowed action: `npm publish`
 
 The workflow runs on a GitHub-hosted runner with OIDC permission. npm then issues a short-lived credential and automatically records provenance. A newly configured trusted publisher must complete its first successful publication within npm's configured activation window.
+
+## MCP Registry
+
+`server.json`, `package.json`, and the runtime MCP identity must use the same server name and version. The release workflow authenticates to the official MCP Registry with GitHub OIDC, so no registry token is stored. The npm package is published first because the Registry verifies ownership and availability of the referenced package.
+
+For a manual publication, install `mcp-publisher`, then run:
+
+```bash
+mcp-publisher validate server.json
+mcp-publisher login github
+mcp-publisher publish server.json
+```
+
+The official MCP Registry is currently in preview; schema or publication behavior may change before general availability.

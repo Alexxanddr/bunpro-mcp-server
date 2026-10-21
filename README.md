@@ -147,9 +147,9 @@ Read [Architecture](docs/ARCHITECTURE.md), [Technical security](docs/SECURITY.md
 
 ## Releases and distribution
 
-The npm package is published as [`bunpro-mcp-server`](https://www.npmjs.com/package/bunpro-mcp-server) and can be launched with `npx -y bunpro-mcp-server`.
+The npm package is published as [`bunpro-mcp-server`](https://www.npmjs.com/package/bunpro-mcp-server) and can be launched with `npx -y bunpro-mcp-server`. Release metadata is also prepared for the [official MCP Registry](https://registry.modelcontextprotocol.io/) through `server.json`.
 
-Releases use Semantic Versioning and GitHub Releases. The release tag must match `v<package version>`; GitHub Actions then tests and publishes through tokenless npm Trusted Publishing. See [Publishing](docs/PUBLISHING.md).
+Releases use Semantic Versioning and GitHub Releases. The release tag must match `v<package version>`; GitHub Actions then tests, publishes through tokenless npm Trusted Publishing, and registers the same version in the official MCP Registry. See [Publishing](docs/PUBLISHING.md).
 
 A future hosted streamable-HTTP server could reduce installation friction, but it first needs secure per-user authentication and token storage. Local stdio keeps the current bearer token on the user's machine.
 

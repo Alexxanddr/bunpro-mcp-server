@@ -4,10 +4,11 @@ All notable changes will be documented here. The project follows [Semantic Versi
 
 ## [Unreleased]
 
-## [0.2.0] - 2026-10-21
+## [0.2.2] - 2026-10-21
 
 - Added npm publication metadata and complete package documentation.
 - Added tokenless npm publishing from GitHub Releases through Trusted Publishing.
+- Added automated publication metadata for the official MCP Registry.
 - Updated the supported runtime to maintained Node.js 22 and 24 releases.
 - Added open-source project documentation, agent instructions, reusable MCP workflows, CI, and release validation commands.
 

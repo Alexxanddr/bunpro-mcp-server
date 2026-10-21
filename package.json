@@ -1,6 +1,6 @@
 {
   "name": "bunpro-mcp-server",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Read-only MCP server for the unofficial Bunpro frontend API",
   "mcpName": "io.github.Alexxanddr/bunpro-mcp-server",
   "repository": {
@@ -29,6 +29,7 @@
     "CHANGELOG.md",
     "README.md",
     "SECURITY.md",
+    "server.json",
     "LICENSE"
   ],
   "publishConfig": {

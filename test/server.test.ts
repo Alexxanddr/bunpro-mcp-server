@@ -37,7 +37,7 @@ test('exposes every read-only operation in the published API', async () => {
 
   try {
     assert.equal(client.getServerVersion()?.name, 'bunpro-mcp-server');
-    assert.equal(client.getServerVersion()?.version, '0.2.0');
+    assert.equal(client.getServerVersion()?.version, '0.2.2');
     const { tools } = await client.listTools();
     assert.deepEqual(tools.map(({ name }) => name).sort(), publishedReadTools);
     assert.ok(tools.every(({ annotations }) => annotations?.readOnlyHint));

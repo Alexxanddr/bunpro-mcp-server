@@ -5,7 +5,7 @@ import { BunproClient } from './client.js';
 const annotations = { readOnlyHint: true, idempotentHint: true, openWorldHint: true };
 
 export function createServer(client: BunproClient): McpServer {
-  const server = new McpServer({ name: 'bunpro-mcp-server', version: '0.2.0' });
+  const server = new McpServer({ name: 'bunpro-mcp-server', version: '0.2.2' });
   const result = async (request: Promise<unknown>) => {
     try {
       const data = await request;
