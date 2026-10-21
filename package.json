@@ -1,0 +1,48 @@
+{
+  "name": "bunpro-mcp-server",
+  "version": "0.1.0",
+  "description": "Read-only MCP server for the unofficial Bunpro frontend API",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexxanddr/bunpro-mcp-server.git"
+  },
+  "homepage": "https://github.com/Alexxanddr/bunpro-mcp-server#readme",
+  "bugs": {
+    "url": "https://github.com/Alexxanddr/bunpro-mcp-server/issues"
+  },
+  "keywords": ["bunpro", "japanese", "mcp", "model-context-protocol"],
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "bunpro-mcp-server": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc --emitDeclarationOnly && esbuild src/index.ts --bundle --platform=node --format=esm --packages=bundle --outfile=dist/index.js",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "test": "tsx --test test/**/*.test.ts",
+    "test:live": "node --env-file=.env --import tsx --test test/live-api.test.ts",
+    "type-check": "tsc --noEmit",
+    "check": "npm run type-check && npm test && npm run build",
+    "prepack": "npm run check"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.0",
+    "zod": "^4.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.28.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}
