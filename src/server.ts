@@ -5,7 +5,7 @@ import { BunproClient } from './client.js';
 const annotations = { readOnlyHint: true, idempotentHint: true, openWorldHint: true };
 
 export function createServer(client: BunproClient): McpServer {
-  const server = new McpServer({ name: 'bunpro-mcp-server', version: '0.2.4' });
+  const server = new McpServer({ name: 'bunpro-mcp-server', version: '0.3.0' });
   const result = async (request: Promise<unknown>) => {
     try {
       const data = await request;
@@ -49,6 +49,12 @@ export function createServer(client: BunproClient): McpServer {
     description: 'Get the accuracy percentage from the last review session',
     annotations,
   }, () => result(client.getLastSession()));
+
+  server.registerTool('get_weak_items', {
+    description: 'Rank weak grammar and vocabulary using study count and historical accuracy',
+    inputSchema: { limit: z.number().int().min(1).max(100).default(20) },
+    annotations,
+  }, ({ limit }) => result(client.getWeakItems(limit)));
 
   server.registerTool('get_vocab', {
     description: 'Get a vocabulary item by slug or ID',

@@ -75,3 +75,45 @@ test('search uses the current endpoint and returns compact limited results', asy
     globalThis.fetch = originalFetch;
   }
 });
+
+test('weak items include paginated grammar and vocab ranked by estimated misses', async () => {
+  const originalFetch = globalThis.fetch;
+  const requests: string[] = [];
+  globalThis.fetch = async (input) => {
+    const url = new URL(String(input));
+    requests.push(url.search);
+    const type = url.searchParams.get('reviewable_type');
+    const level = url.searchParams.get('level');
+    const page = Number(url.searchParams.get('page'));
+    if (level !== 'beginner') {
+      return new Response(JSON.stringify({ reviews: { data: [], included: [] }, pagy: { pages: 1 } }));
+    }
+    const grammar = type === 'Grammar';
+    const id = `${grammar ? 'g' : 'v'}${page}`;
+    const misses = grammar ? (page === 1 ? 2 : 5) : 3;
+    const accuracy = grammar ? (page === 1 ? 20 : 90) : (page === 1 ? 80 : 10);
+    return new Response(JSON.stringify({
+      reviews: {
+        data: [{
+          attributes: { review_misses: misses, accuracy, times_studied: 10, streak: page },
+          relationships: { reviewable: { data: { id } } },
+        }],
+        included: [{ id, attributes: { id: page, title: id, type_pascal: grammar ? 'GrammarPoint' : 'Vocab' } }],
+      },
+      pagy: { pages: 2 },
+    }));
+  };
+
+  try {
+    const result = await new BunproClient('secret', 'https://example.test').getWeakItems(1) as {
+      grammar: Array<Record<string, unknown>>;
+      vocab: Array<Record<string, unknown>>;
+    };
+    assert.equal(result.grammar[0]?.title, 'g1');
+    assert.equal(result.vocab[0]?.title, 'v2');
+    assert.ok(requests.includes('?level=beginner&reviewable_type=Grammar&page=2'));
+    assert.ok(requests.includes('?level=beginner&reviewable_type=Vocab&page=2'));
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});

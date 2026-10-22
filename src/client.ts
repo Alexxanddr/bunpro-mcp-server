@@ -15,6 +15,17 @@ interface SearchResponse {
   vocabs?: SearchSection;
 }
 
+interface SrsDetailsResponse {
+  reviews?: {
+    data?: Array<{
+      attributes?: Record<string, unknown>;
+      relationships?: { reviewable?: { data?: { id?: string } } };
+    }>;
+    included?: Array<{ id?: string; attributes?: Record<string, unknown> }>;
+  };
+  pagy?: { pages?: number };
+}
+
 function compact(attributes: Record<string, unknown> = {}): Record<string, unknown> {
   return Object.fromEntries(Object.entries({
     id: attributes.id,
@@ -85,6 +96,49 @@ export class BunproClient {
         grammar: grammarCount > limit ? `${limit}/${grammarCount}` : false,
         vocab: vocabCount > limit ? `${limit}/${vocabCount}` : false,
       },
+    };
+  }
+
+  async getWeakItems(limit = 20): Promise<unknown> {
+    const levels = ['beginner', 'adept', 'seasoned', 'expert', 'master'];
+    const load = async (reviewableType: 'Grammar' | 'Vocab') => {
+      const pages = await Promise.all(levels.map(async (level) => {
+        const first = await this.request('/user_stats/srs_level_details', {
+          query: { level, reviewable_type: reviewableType, page: 1 },
+        }) as SrsDetailsResponse;
+        const rest = await Promise.all(Array.from(
+          { length: Math.max(0, (first.pagy?.pages ?? 1) - 1) },
+          (_, index) => this.request('/user_stats/srs_level_details', {
+            query: { level, reviewable_type: reviewableType, page: index + 2 },
+          }) as Promise<SrsDetailsResponse>,
+        ));
+        return [first, ...rest];
+      }));
+
+      return pages.flat().flatMap(({ reviews }) => {
+        const included = new Map((reviews?.included ?? []).map((item) => [item.id, item.attributes]));
+        return (reviews?.data ?? []).map(({ attributes = {}, relationships }) => {
+          const accuracy = Number(attributes.accuracy ?? 100);
+          const timesStudied = Number(attributes.times_studied ?? 0);
+          return {
+            ...compact(included.get(relationships?.reviewable?.data?.id)),
+            estimated_misses: Math.round(timesStudied * (100 - accuracy) / 100),
+            accuracy,
+            times_studied: timesStudied,
+            review_misses: attributes.review_misses,
+            srs_streak: attributes.streak,
+          };
+        });
+      }).sort((a, b) =>
+        b.estimated_misses - a.estimated_misses || a.accuracy - b.accuracy
+      ).slice(0, limit);
+    };
+
+    const [grammar, vocab] = await Promise.all([load('Grammar'), load('Vocab')]);
+    return {
+      ranking: 'estimated_misses descending, then accuracy ascending',
+      grammar,
+      vocab,
     };
   }
 

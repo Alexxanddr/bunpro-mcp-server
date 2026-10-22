@@ -4,6 +4,10 @@ All notable changes will be documented here. The project follows [Semantic Versi
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-22
+
+- Added `get_weak_items` to rank both grammar and vocabulary using study count and historical accuracy.
+
 ## [0.2.4] - 2026-10-22
 
 - Aligned npm, MCP Registry, and runtime version metadata for automated publishing.

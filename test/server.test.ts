@@ -26,6 +26,7 @@ const publishedReadTools = [
   'get_vocab',
   'get_vocab_neighbors',
   'get_vocab_notes',
+  'get_weak_items',
   'search',
 ];
 
@@ -37,7 +38,7 @@ test('exposes every read-only operation in the published API', async () => {
 
   try {
     assert.equal(client.getServerVersion()?.name, 'bunpro-mcp-server');
-    assert.equal(client.getServerVersion()?.version, '0.2.4');
+    assert.equal(client.getServerVersion()?.version, '0.3.0');
     const { tools } = await client.listTools();
     assert.deepEqual(tools.map(({ name }) => name).sort(), publishedReadTools);
     assert.ok(tools.every(({ annotations }) => annotations?.readOnlyHint));

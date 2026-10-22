@@ -36,6 +36,14 @@ Optional `period`: enum `"daily" | "hourly"`, default `"daily"`. Calls `GET /use
 { "name": "get_review_activity", "arguments": { "period": "hourly" } }
 ```
 
+### `get_weak_items`
+
+Optional integer `limit`, from 1 to 100 and defaulting to `20`, is applied separately to grammar and vocabulary. The tool loads regular SRS items from every level through `GET /user_stats/srs_level_details`, follows all result pages, and returns compact `grammar` and `vocab` rankings. `estimated_misses` is calculated as `round(times_studied × (100 − accuracy) / 100)` and sorted descending, with lower accuracy breaking ties. The upstream `review_misses` value is retained but not used for ranking because Bunpro reports it as zero for vocabulary with low historical accuracy. Self-study and ghost queues are excluded to avoid duplicate items.
+
+```json
+{ "name": "get_weak_items", "arguments": { "limit": 10 } }
+```
+
 ### `get_vocab` and `get_vocab_notes`
 
 Required non-empty string `vocab`, interpreted as a slug or ID and URL-encoded. Requests are `GET /reviewables/vocab/{vocab}` and `GET /reviewables/vocab/{vocab}/notes`.

@@ -95,6 +95,7 @@ The last command starts an MCP stdio process and waits for protocol messages; it
 | `get_srs_overview` | Get the SRS level overview. |
 | `get_review_activity` | Get daily or hourly review activity. |
 | `get_last_session` | Get last-session accuracy. |
+| `get_weak_items` | Rank weak grammar and vocabulary using study count and accuracy. |
 | `get_vocab` | Get vocabulary by slug or ID. |
 | `get_vocab_notes` | Get notes for vocabulary. |
 | `get_vocab_neighbors` | Get adjacent vocabulary in a deck. |
