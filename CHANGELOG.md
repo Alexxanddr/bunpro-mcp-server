@@ -4,6 +4,10 @@ All notable changes will be documented here. The project follows [Semantic Versi
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-10-22
+
+- Aligned npm, MCP Registry, and runtime version metadata for automated publishing.
+
 ## [0.2.2] - 2026-10-21
 
 - Added npm publication metadata and complete package documentation.
